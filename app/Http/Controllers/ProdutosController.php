@@ -35,17 +35,8 @@ class ProdutosController extends Controller
      */
     public function index()
     {
-        return $this->produtosService->all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $produtos = $this->produtosService->all();
+        return view('content.Produtos.index')->with('produtos', $produtos);
     }
 
     /**
@@ -57,28 +48,6 @@ class ProdutosController extends Controller
     public function store(Request $request)
     {
         return ['status' => 200, 'data' => $this->produtosService->create($request->all())];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
