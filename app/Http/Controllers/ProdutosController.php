@@ -8,6 +8,8 @@ use App\Services\ProdutosService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class ProdutosController
@@ -19,13 +21,15 @@ class ProdutosController extends Controller
      * @var ProdutosService
      */
     protected $produtosService;
+    protected $categoriaService;
 
     /**
      * @param ProdutosService $produtosService
      */
-    function __construct(ProdutosService $produtosService)
+    function __construct(ProdutosService $produtosService, CategoriaService $categoriaService)
     {
         $this->produtosService = $produtosService;
+        $this->categoriaService = $categoriaService;
     }
 
     /**
@@ -39,6 +43,17 @@ class ProdutosController extends Controller
         return view('content.Produtos.index')->with('produtos', $produtos);
     }
 
+
+    public function create(Request $request)
+    {
+        $lstCategorias = $this->categoriaService->all();
+        $categorias = array('-1' => 'Selecione');
+        foreach($lstCategorias as $categoria){
+            $categorias[$categoria->id] = $categoria->id;
+        }
+
+        return view('content.Produtos.create.index')->with('categorias', $categorias);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -47,7 +62,11 @@ class ProdutosController extends Controller
      */
     public function store(Request $request)
     {
-        return ['status' => 200, 'data' => $this->produtosService->create($request->all())];
+        try{
+            $this->produtosService->create($request->all());
+        }catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => 'fALHA'])->withInput();
+        }
     }
 
     /**
@@ -59,7 +78,11 @@ class ProdutosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return ['status' => 200, 'data' => $this->produtosService->update($request->all(), $id)];
+        try{
+            $this->produtosService->update($request->all(), $id);
+        }catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => 'fALHA'])->withInput();
+        }
     }
 
     /**
@@ -70,6 +93,12 @@ class ProdutosController extends Controller
      */
     public function destroy($id)
     {
-        return ['status' => 200, 'data' => $this->produtosService->destroy($id)];
+        return $id;
+
+        try{
+            $this->produtosService->destroy($id);
+        }catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => 'fALHA'])->withInput();
+        }
     }
 }

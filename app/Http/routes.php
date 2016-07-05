@@ -11,5 +11,6 @@
 |
 */
 
-Route::resource('/', 'ProdutosController');
+Route::resource('/', 'PainelController', ['only' => 'index']);
+Route::resource('produtos', 'ProdutosController');
 Route::resource('categoria', 'CategoriaController');
