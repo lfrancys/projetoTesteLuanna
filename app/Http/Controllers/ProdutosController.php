@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Categoria;
+use App\Entities\Produtos;
 use App\Services\CategoriaService;
 use App\Services\ProdutosService;
 use Illuminate\Http\Request;
@@ -60,7 +61,7 @@ class ProdutosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\ProdutosRequest $request)
     {
         try{
             $this->produtosService->create($request->all());

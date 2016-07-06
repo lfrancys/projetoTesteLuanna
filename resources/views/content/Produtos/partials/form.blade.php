@@ -1,16 +1,21 @@
-@if($errors->any())
-    <div class="w3-container w3-red">
-        <h3>Erro!</h3>
-        <p>{{$errors->first()}}</p>
-    </div>
-@endif
-
 @if(session('success'))
     <div class="w3-container w3-indigo">
         <h3>Sucesso!</h3>
         <p>{{session('success')}}</p>
     </div>
 @endif
+
+@if (count($errors) > 0)
+    <div class="w3-container w3-red">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
 
 <table class="w3-table">
     <tr>
