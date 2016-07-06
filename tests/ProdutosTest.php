@@ -83,7 +83,7 @@ class ProdutosTest extends TestCase
             'nome'      => 'Atualizado - '.$produto->nome
         );
 
-        $response = $this->call('PUT', route('produtos.update', $produto->id), $produtoAtualizado);
+        $response = $this->call('PUT', route('produtos.edit', $produto->id), $produtoAtualizado);
         $jsonResponse = (object) json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $jsonResponse->status);

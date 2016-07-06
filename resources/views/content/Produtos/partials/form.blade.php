@@ -5,6 +5,13 @@
     </div>
 @endif
 
+@if(session('success'))
+    <div class="w3-container w3-indigo">
+        <h3>Sucesso!</h3>
+        <p>{{session('success')}}</p>
+    </div>
+@endif
+
 <table class="w3-table">
     <tr>
         <td>
@@ -51,7 +58,7 @@
         <td colspan="2">
             <center>
                 {!! Form::reset(trans('Produtos.partials.btnCancelar'), ['class' => 'w3-btn w3-dark-grey w3-round-large', 'id' => 'btnCancelar']) !!}
-                {!! Form::submit(trans('Produtos.partials.btnCadastrar'), ['class' => 'w3-btn w3-indigo w3-round-large', 'id' => 'btnCadastrar']) !!}
+                {!! Form::submit(trans('Produtos.partials.btnSalvar'), ['class' => 'w3-btn w3-indigo w3-round-large', 'id' => 'btnCadastrar']) !!}
             </center>
         </td>
     </tr>

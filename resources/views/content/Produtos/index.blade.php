@@ -23,8 +23,10 @@
             <td> {{$produto->foto}} </td>
             <td>
                {{-- <a href="{{route('produtos.edit')}}">Editar</a>
-                <a href="{{route('produtos.destroy')}}">Excluir</a> --}}
-                <a href="{{route('produtos.destroy', $produto->id)}}" class="w3-btn w3-indigo w3-round-large">Excluir</a>
+                <a href="{{route('produtos.destroy')}}">Excluir</a>--}}
+
+                <a href="{{route('produtos.edit', $produto->id)}}">Editar</a>
+                {!! Form::button(trans('Produtos.partials.btnExcluir'), ['class' => 'w3-btn w3-indigo w3-round-large', 'link' => route('produtos.destroy', $produto->id),'id' => 'btnExcluir']) !!}
             </td>
         </tr>
     @endforeach
@@ -32,3 +34,22 @@
 
 
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+
+    jQuery(document).ready(function(){
+
+       $("#btnExcluir").click(function(e){
+           jQuery.ajax({
+               type: 'DELETE',
+               url: $(this).attr('link'),
+               data: {'_token': '{{csrf_token()}}' }
+           }).done(function( msg ) {
+               alert( "Data Saved: " + msg );
+           });
+       });
+
+    });
+
+</script>

@@ -64,10 +64,25 @@ class ProdutosController extends Controller
     {
         try{
             $this->produtosService->create($request->all());
+            return redirect()->back()->with(['success' => 'ok']);
         }catch (\Exception $e){
             return redirect()->back()->withErrors(['error' => 'fALHA'])->withInput();
         }
     }
+
+    public function edit($id){
+
+        $lstCategorias = $this->categoriaService->all();
+        $categorias = array('-1' => 'Selecione');
+        foreach($lstCategorias as $categoria){
+            $categorias[$categoria->id] = $categoria->id;
+        }
+
+        $produto = $this->produtosService->find(['id' => $id])->first();
+
+        return view('content.Produtos.edit.index')->with(['categorias' => $categorias, 'produto' => $produto]);
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -93,12 +108,10 @@ class ProdutosController extends Controller
      */
     public function destroy($id)
     {
-        return $id;
-
         try{
-            $this->produtosService->destroy($id);
+            return $this->produtosService->destroy($id);
         }catch (\Exception $e){
-            return redirect()->back()->withErrors(['error' => 'fALHA'])->withInput();
+            return redirect()->back()->withErrors(['error' => 'Falha ao excluir'])->withInput();
         }
     }
 }
