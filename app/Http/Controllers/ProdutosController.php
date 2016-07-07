@@ -92,12 +92,12 @@ class ProdutosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\ProdutosRequest $request, $id)
     {
         try{
             $this->produtosService->update($request->all(), $id);
         }catch (\Exception $e){
-            return redirect()->back()->withErrors(['error' => 'fALHA'])->withInput();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
     }
 

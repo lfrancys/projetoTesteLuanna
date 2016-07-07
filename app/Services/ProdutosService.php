@@ -11,8 +11,8 @@ class ProdutosService extends ServiceAbstract {
     protected $categoriaService;
     protected $legacyProdutoService;
 
-    protected function makeEntity():Model{
-        return app(Produtos::class);
+    protected function makeEntity(){
+        return Produtos::class;
     }
 
     function __construct(DatabaseManager $db, CategoriaService $categoriaService, ProdutosServiceLegacy $legacyProdutoService)
@@ -35,8 +35,15 @@ class ProdutosService extends ServiceAbstract {
     public function update(array $data, $id){
 
         $produto = parent::update($data, $id); //atualiza no banco novo
-        $produtoLegacy = $this->legacyProdutoService->where('idProduto', '=', $id)->first(); // pega o produto no banco velho
+
+    dd($produto);
+
+        $produtoLegacy = $this->legacyProdutoService->find(['idProduto' => $id]); // pega o produto no banco velho
+
+
         $this->legacyProdutoService->update($data, $produtoLegacy->id); //atualiza no banco velho
+
+
 
         return $produto;
     }
